@@ -17,5 +17,25 @@ namespace FreeKart.Controllers
         {
             return View();
         }
+        public ActionResult CartDetails()
+        {
+            return View();
+        }
+        public ActionResult AddAddress(string type)
+        {
+            if (type=="add")
+            {
+                ViewData["type"] = "Address Details";
+            }
+            else
+            {
+                ViewData["type"] = "Change Details";
+            }
+            return View();
+        }
+        public ActionResult PaymentProcess()
+        {
+            return View();
+        }
     }
 }

@@ -1,0 +1,68 @@
+﻿
+@{
+    ViewBag.Title = "AddAddress";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>AddAddress</h2>
+
+<div class="container d-flex justify-content-center">
+    <div class="card">
+        <div class="card-header">
+            Cart Details
+
+        </div>
+        <div class="card-body">
+            <div class="container mt-4">
+                <h4>@(ViewData["type"]!=null?ViewData["type"]?.ToString():"Address Details")</h4>
+                <form>
+                    <table class="table table-borderless">
+                        <tbody>
+                            <tr>
+                                <td><label for="name">Full Name</label></td>
+                                <td><input type="text" id="name" class="form-control" placeholder="John Doe" required></td>
+                            </tr>
+                            <tr>
+                                <td><label for="mobile">Mobile Number</label></td>
+                                <td><input type="tel" id="mobile" class="form-control" placeholder="9876543210" required></td>
+                            </tr>
+                            <tr>
+                                <td><label for="pincode">Pincode</label></td>
+                                <td><input type="text" id="pincode" class="form-control" placeholder="560001" required></td>
+                            </tr>
+                            <tr>
+                                <td><label for="address">Address (House No, Street)</label></td>
+                                <td><textarea id="address" class="form-control" rows="2" placeholder="123, MG Road"></textarea></td>
+                            </tr>
+                            <tr>
+                                <td><label for="locality">Locality / Town</label></td>
+                                <td><input type="text" id="locality" class="form-control" placeholder="Indiranagar"></td>
+                            </tr>
+                            <tr>
+                                <td><label for="city">City / District</label></td>
+                                <td><input type="text" id="city" class="form-control" placeholder="Bangalore"></td>
+                            </tr>
+                            <tr>
+                                <td><label for="state">State</label></td>
+                                <td>
+                                    <select id="state" class="form-control">
+                                        <option value="">Select State</option>
+                                        <option>Karnataka</option>
+                                        <option>Maharashtra</option>
+                                        <option>Tamil Nadu</option>
+                                        <option>Telangana</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="text-end">
+                                    <a href="/product/cartdetails" class="btn btn-success">Save Address</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+</div>
+</div>

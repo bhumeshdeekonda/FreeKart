@@ -167,6 +167,9 @@
     <Content Include="Views\Shared\_LayoutPage1.cshtml" />
     <Content Include="Views\Product\Page.cshtml" />
     <Content Include="Views\Product\Details.cshtml" />
+    <Content Include="Views\Product\CartDetails.cshtml" />
+    <Content Include="Views\Product\AddAddress.cshtml" />
+    <Content Include="Views\Product\PaymentProcess.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
