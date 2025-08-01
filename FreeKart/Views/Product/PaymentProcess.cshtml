@@ -3,36 +3,307 @@
     ViewBag.Title = "PaymentProcess";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
 
-<h2>PaymentProcess</h2>
-<div class="container d-flex justify-content-center">
+    .payment-form {
+        max-width: 500px;
+        margin: 50px auto;
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+
+    .btn-primary {
+        background-color: #6c63ff;
+        border: none;
+    }
+
+    #card-element {
+        padding: 10px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+    }
+
+    .card-icon {
+        height: 30px;
+        float: right;
+        margin-top: -35px;
+        margin-right: 10px;
+    }
+</style>
+
+<div class="mx-auto" style="width: 600px;">
     <div class="card">
         <div class="card-header">
-            Payment Process
+            <h3>Payment Process</h3> 
 
         </div>
-        <div class="card-body">
-            <table>
-                <tr>
-                    <td>
-                        <div class="card">
-                            <table>
-                                <tr class="bg-primary">
-                                    <td>UPI</td>
-                                </tr>
-                                <tr class="bg-primary">
-                                    <td>BHIM UPI</td>
-                                </tr>
-                                <tr class="bg-primary">
-                                    <td>UPI</td>
-                                </tr>
-                            </table>
+        <div>
+            <div class="form-group" id="accordion">
+
+                <ul class="list-group list-group-flush">
+                    <!-- UPI -->
+                    <li class="list-group-item ">
+                        <a class="collapsed btn" data-bs-toggle="collapse" href="#collapse1">
+                            <img src="https://logodix.com/logo/1645140.png" class="paymtimg" />
+                        </a>
+                        <div id="collapse1" class="collapse show" data-bs-parent="#accordion">
+                            <div class="card-body">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title mb-3">Verify UPI ID</h5>
+                                        <form id="upiForm">
+                                            <div class="row g-2 align-items-center">
+                                                <div class="col-md-6">
+                                                    <input type="text" class="form-control" id="upiInput" placeholder="Enter your UPI (e.g. abcd@ybl)" required>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <button type="submit" class="btn btn-primary w-100">Verify</button>
+                                                </div>
+                                            </div>
+                                            <div id="upiMessage" class="mt-2 text-success" style="display: none;">✅ UPI ID Verified!</div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
 
-                    </td>
-                </tr>
-            </table>
+                    </li>
+
+                    <!-- BHIM UPI -->
+                    <li class="list-group-item">
+                        <a class="collapsed btn" data-bs-toggle="collapse" href="#collapse2">
+                            <img src="https://www.nicepng.com/png/full/360-3606562_bhim-logo-bhim-upi.png" class="paymtimg" />
+                        </a>
+                        <div id="collapse2" class="collapse" data-bs-parent="#accordion">
+                            <div class="card-body">
+                                <div class="card mt-4">
+                                    <div class="card-body">
+                                        <h5 class="card-title mb-3">BHIM UPI Payment</h5>
+                                        <form id="bhimUpiForm">
+                                            <div class="row g-2 align-items-center">
+                                                <div class="col-md-8">
+                                                    <input type="text" class="form-control" id="bhimUpiInput" placeholder="Enter your UPI ID (e.g. abc@upi)" required>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <button type="submit" class="btn btn-success w-100">Pay via BHIM</button>
+                                                </div>
+                                            </div>
+                                            <div id="bhimUpiMessage" class="mt-2 text-success" style="display: none;"></div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <!-- Credit/Debit Card -->
+                    <li class="list-group-item">
+                        <a class="collapsed btn" data-bs-toggle="collapse" href="#collapse3">
+                            <img src=" https://purepng.com/public/uploads/large/credit-card-in-black-and-white-color-ugk.png" class="paymtimg" /> Credit/Debit Card
+                        </a>
+                        <div id="collapse3" class="collapse" data-bs-parent="#accordion">
+                            <div class="payment-form">
+                                <form id="payment-form">
+                                    <h4 class="mb-4 text-center">Secure Payment</h4>
+                                    <div class="mb-3">
+                                        <label for="cardholder-name" class="form-label">Cardholder Name</label>
+                                        <input type="text" id="cardholder-name" class="form-control" required>
+                                    </div>
+
+                                    <div class="mb-3 position-relative">
+                                        <label class="form-label">Card Details</label>
+                                        <div id="card-element"></div>
+                                        <img id="cardLogo" class="card-icon" src="" alt="" style="display:none;" />
+                                    </div>
+
+                                    <div id="card-errors" class="text-danger mb-3"></div>
+
+                                    <button type="submit" class="btn btn-primary w-100">Pay Now</button>
+                                </form>
+                            </div>
+                        </div>
+                    </li>
+
+                    <!-- Net Banking -->
+                    <li class="list-group-item">
+                        <a class="collapsed btn" data-bs-toggle="collapse" href="#collapse4">
+                            <img src=" https://c8.alamy.com/comp/P2D3H0/netbanking-vector-icon-isolated-on-transparent-background-netbanking-logo-concept-P2D3H0.jpg" class="paymtimg" />
+                            Net Banking
+                        </a>
+                        <div id="collapse4" class="collapse" data-bs-parent="#accordion">
+                            <div class="card-body">
+                                <div class="card mt-4">
+                                    <div class="card-body">
+                                        <h5 class="card-title mb-3">Net Banking</h5>
+
+                                        <form id="netBankingForm">
+                                            <div class="mb-3">
+                                                <label for="bankSelect" class="form-label">Select Your Bank</label>
+                                                <select class="form-select" id="bankSelect" required>
+                                                    <option value="">-- Choose Bank --</option>
+                                                    <option value="HDFC">HDFC Bank</option>
+                                                    <option value="ICICI">ICICI Bank</option>
+                                                    <option value="SBI">State Bank of India</option>
+                                                    <option value="AXIS">Axis Bank</option>
+                                                    <option value="KOTAK">Kotak Mahindra</option>
+                                                </select>
+                                            </div>
+
+                                            <button type="submit" class="btn btn-primary w-100">Proceed to Pay</button>
+
+                                            <div id="bankResult" class="mt-3 text-success" style="display: none;"></div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
+</div>
 
+
+
+
+
+<script>
+    const stripe = Stripe('YOUR_PUBLISHABLE_KEY');
+    const elements = stripe.elements();
+    const style = {
+        base: {
+            fontSize: '16px',
+            color: '#32325d',
+        }
+    };
+    const card = elements.create('card', { style });
+    card.mount('#card-element');
+
+    // Card type detection
+    card.on('change', function (event) {
+        const logo = document.getElementById('cardLogo');
+        if (event.brand) {
+            const brand = event.brand.toLowerCase();
+            const logos = {
+                visa: 'https://img.icons8.com/color/48/visa.png',
+                mastercard: 'https://img.icons8.com/color/48/mastercard-logo.png',
+                amex: 'https://img.icons8.com/color/48/amex.png',
+                discover: 'https://img.icons8.com/color/48/discover.png'
+            };
+            logo.src = logos[brand] || '';
+            logo.style.display = logos[brand] ? 'block' : 'none';
+        }
+        const errorDiv = document.getElementById('card-errors');
+        if (event.error) {
+            errorDiv.textContent = event.error.message;
+        } else {
+            errorDiv.textContent = '';
+        }
+    });
+
+    // Form submission
+    const form = document.getElementById('payment-form');
+    form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const { token, error } = await stripe.createToken(card, {
+            name: document.getElementById('cardholder-name').value
+        });
+
+        const errorDiv = document.getElementById('card-errors');
+        if (error) {
+            errorDiv.textContent = error.message;
+        } else {
+            console.log('Stripe Token:', token);
+            errorDiv.textContent = '';
+
+            // Send token to your backend for processing
+            fetch('/your-server-endpoint', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ token: token.id })
+            }).then(response => {
+                if (response.ok) {
+                    alert('Payment successful!');
+                } else {
+                    alert('Payment failed.');
+                }
+            });
+        }
+    });
+</script>
+
+<script>
+    document.getElementById('upiForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const upi = document.getElementById('upiInput').value.trim();
+        const message = document.getElementById('upiMessage');
+
+        // Simple UPI regex check (example format)
+        const upiRegex = new RegExp(/^ [\w.-] +[\w.-] + $ /);
+        if (upiRegex.test(upi)) {
+            message.style.display = 'block';
+            message.textContent = "✅ UPI ID Verified!";
+            message.classList.remove('text-danger');
+            message.classList.add('text-success');
+        } else {
+            message.style.display = 'block';
+            message.textContent = "❌ Invalid UPI format!";
+            message.classList.remove('text-success');
+            message.classList.add('text-danger');
+        }
+    });
+</script>
+
+<script>
+    document.getElementById('netBankingForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const selectedBank = document.getElementById('bankSelect').value;
+        const resultDiv = document.getElementById('bankResult');
+
+        if (selectedBank) {
+            resultDiv.textContent = `✅ Redirecting to ${selectedBank} net banking...`;
+            resultDiv.style.display = 'block';
+
+            // Simulate redirect (or call your backend/API)
+            setTimeout(() => {
+                alert(`Pretend you are being redirected to ${selectedBank}'s net banking site.`);
+                // location.href = `/redirect-to-bank?bank=${selectedBank}`; // your actual redirection logic
+            }, 1500);
+        } else {
+            resultDiv.textContent = '❌ Please select a bank.';
+            resultDiv.classList.add('text-danger');
+            resultDiv.style.display = 'block';
+        }
+    });
+</script>
+<script>
+    document.getElementById('bhimUpiForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const upiInput = document.getElementById('bhimUpiInput').value.trim();
+        const message = document.getElementById('bhimUpiMessage');
+
+        const upiRegex = new RegExp(/^ [\w.-] +[\w.-] + $ /);;  // Simple UPI ID pattern
+
+        if (upiRegex.test(upiInput)) {
+            message.textContent = `✅ Request sent to ${upiInput}. Please complete the payment in your UPI app.`;
+            message.classList.remove('text-danger');
+            message.classList.add('text-success');
+            message.style.display = 'block';
+
+            // Here you would call your backend or payment API (Razorpay, PhonePe, etc.)
+        } else {
+            message.textContent = `❌ Invalid UPI ID format.`;
+            message.classList.remove('text-success');
+            message.classList.add('text-danger');
+            message.style.display = 'block';
+        }
+    });
+</script>
